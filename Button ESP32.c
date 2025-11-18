@@ -2,8 +2,6 @@
 #define DEBOUNCE_TIME  50 // debounce time in milliseconds
 
 
-
-
 // Variables for debounce logic
 int lastSteadyState = LOW;
 int lastFlickerableState = LOW;
@@ -11,6 +9,8 @@ int currentState;
 unsigned long lastDebounceTime = 0;
 
 
+// Contador de vegades que s'ha apretat el botó
+int comptador = 0;
 
 
 void setup() {
@@ -19,20 +19,14 @@ void setup() {
 }
 
 
-
-
 bool button() {
  currentState = digitalRead(BUTTON_PIN);
-
-
 
 
  if (currentState != lastFlickerableState) {
    lastDebounceTime = millis();
    lastFlickerableState = currentState;
  }
-
-
 
 
  if ((millis() - lastDebounceTime) > DEBOUNCE_TIME) {
@@ -44,17 +38,15 @@ bool button() {
  }
 
 
-
-
  // Retorna false si no hi ha canvi o el botó no està premut
  return false;
 }
 
 
-
-
 void loop() {
  if (button()) {
-   Serial.println("Botó premut");
+   comptador++;
+   Serial.print("Botó premut - Comptador: ");
+   Serial.println(comptador);
  }
 }
